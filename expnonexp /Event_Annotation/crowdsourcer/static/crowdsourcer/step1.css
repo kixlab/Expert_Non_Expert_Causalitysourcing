@@ -1,0 +1,317 @@
+body{
+  height: 100%;
+  width : 100%;
+  padding: 0;
+  margin: 0;
+}
+html{
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+#title{
+  margin-right: 4%;
+  margin-left: 4%;
+  padding-top: 2%;
+  font-size: 15pt;
+  font-family: 'PT Sans', sans-serif;
+  margin-bottom: 1%;
+  padding: 0;
+}
+#explanation{
+  margin-right: 4%;
+  margin-left: 4%;
+  margin-bottom: .5%;
+  font-size: 16pt;
+  text-align: right;
+  font-family: 'PT Sans', sans-serif;
+}
+#pane{
+  height : 65%;
+  width: 92%;
+  margin-right: 4%;
+  margin-left: 4%;
+  padding: 0;
+
+}
+#left_text{
+  float: left;
+}
+#right_questions{
+  float: right;
+}
+
+.div_pane{
+  height: 100%;
+  width: 47%;
+  overflow-y: scroll;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}
+
+.but{
+  font-size: 20pt;
+  background-color: white;
+  border: solid 1px black;
+  border-left: none;
+  border-right: none;
+  font-family: 'PT Sans', sans-serif;
+  margin-left: 4%;
+  margin-top: 2%;
+  margin-right: 4%;
+}
+#submit{
+  float: right;
+}
+#tutorial{
+  float: left;
+}
+
+.title{
+  font-size: 20pt;
+  font-family: 'PT Sans', sans-serif;
+}
+
+#target_summary{
+  font-family: 'Loto', sans-serif;
+  text-align: justify;
+  line-height: 150%;
+}
+
+a{
+  border : solid 1px transparent;
+  background-color: #e5e5e5;
+  color: black;
+  text-decoration: none;
+}
+#q_title2{
+  visibility: hidden;
+}
+
+.entity_q_set{
+  margin-top: 20px;
+  width: 100%;
+}
+.entity_q_title{
+  margin-bottom: 5px;
+  font-size: 15pt;
+  font-family: 'PT Sans', sans-serif;
+}
+ .question_type{
+   display: block;
+   width: 98%;
+   border: none;
+   margin-left: 1%;
+   margin-right: 1%;
+   border : solid 1px grey;
+   margin-bottom: 5px;
+   font-family: 'Loto', sans-serif;
+   font-size: 12pt;
+   height: 15pt;
+ }
+.sbut{
+  background-color: white;
+  display: block;
+  float: right;
+  border: none;
+  border-top: solid 1px black;
+  border-bottom : solid 1px black;
+}
+.ssbut{
+  display: inline-block;
+  background-color: white;
+  position: relative;
+
+  border: none;
+  border-top: solid 1px black;
+  border-bottom : solid 1px black;
+}
+.sssbut{
+  display: inline-block;
+  background-color: white;
+  position: relative;
+
+  border: none;
+  border-top: solid 1px black;
+  border-bottom : solid 1px black;
+}
+.other_q_buts{
+  margin-right: 3%;
+  display: inline-block;
+  float: right;
+
+}
+.gen_q_buts{
+  display: inline-block;
+  float: right;
+  margin-right: 3%;
+}
+.gen_q_set{
+  margin-bottom: 3px;
+}
+.gen_q{
+  font-style: italic;
+  font-family: "PT Sans", sans-serif;
+  font-size: 12pt;
+  display: inline-block;
+
+}
+
+:focus {
+  outline : none;
+}
+
+.other_q{
+  font-style: italic;
+  font-family: "PT Sans", sans-serif;
+  font-size: 12pt;
+  display: inline-block;
+  width : 90%;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.other_q_sets{
+
+  margin-top: 5px;
+  border-top : solid 1.5px black;
+  border-bottom : solid 1.5px black;
+}
+#vote_prompt{
+  position: absolute;
+  visibility: hidden;
+  margin-right : 20%;
+  margin-left: 20%;
+  margin-top: 10%;
+  height:70%;
+  width: 60%;
+  background-color: white;
+  font-style: italic;
+  font-family: "PT Sans", sans-serif;
+  font-size: 12pt;
+  z-index: 15;
+  border: solid 1.5px black
+}
+#v_prompt_head{
+  text-align: center;
+  font-family: "PT Sans", sans-serif;
+  font-size: 15pt;
+}
+.voting_r{
+  float: right;
+  margin-right: 5%;
+}
+.prompt_question{
+  width: 90%;
+  margin-left: 5%;
+}
+
+#v_prompt_cancel{
+  font-family: "PT Sans", sans-serif;
+  font-size: 12pt;
+  float: right;
+}
+#overlay{
+  visibility: visible;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color:#000;
+  opacity: .75;
+  z-index:10;
+}
+.others_title{
+  font-family: "PT Sans", sans-serif;
+  border-bottom: solid 1px black;
+}
+.gen_q_title{
+
+  font-family: "Loto", sans-serif;
+  border-bottom: solid 1px black;
+}
+#tutorial_pane{
+
+  font-family: "PT Sans", sans-serif;
+  text-align: left;
+  position: absolute;
+  margin-left: 6%;
+  width: 80%;
+  margin-top: 2%;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}
+.tut{
+  width: 100%;
+  float: left;
+}
+.ent{
+  padding-right: 2px;
+  padding-left: 2px;
+
+  border-left: solid 1px black;
+  border-right: solid 1px black;
+  margin: 1px;
+  display: inline-block;
+  font-family: 'PT Sans', sans-serif;
+}
+#entity_title{
+  border-top: Solid 1px black;
+  font-family: 'Loto', sans-serif;
+  font-size: 11pt;
+}
+#entities_involved{
+  border-bottom: solid 1px black;
+}
+#type{
+  width: 80%;
+}
+.prompt_element{
+  margin-left: 10px;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+#v_prompt_box{
+  height: 50%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: scroll;
+}
+#question_self_title{
+  border-top: solid 1px black;
+}
+#gen_q{
+  font-style: italic;
+  word-wrap: break-word;
+  word-break: break-all;
+  font-size: 12pt;
+  font-family: 'PT Sans', sans-serif;
+}
+.s_title{
+  font-family: "Loto", sans-serif;
+  font-size: 11pt;
+}
+#pre_tutorial{
+  bottom: 8%
+  padding: 20px;
+  top:8%;
+  height:84%;
+  left:4%;
+  right:4%;
+  border-top: solid 1.5px black;
+  border-bottom: solid 1.5px black;
+  position : fixed;
+  background-color: white;
+  z-index: 9999999;
+  overflow: scroll;
+}
+p{
+  font-family: "PT Sans", sans-serif;
+}
+#proceed{
+  font-weight: bold;
+  text-align: center;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'crowdsourcer/step5.css' %}" />
+<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+<script src="https://d3js.org/d3-drag.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<script type="text/javascript" src="{% static 'crowdsourcer/step5.js' %}" /></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+</head>
+<body id="main">
+  <div id="empty"></div>
+  <div id="vote_prompt">
+    <p id="v_prompt_head">Among these, which one do you think best represents your idea on the question?</p>
+    <div id="v_prompt_box"></div>
+    <input type=button id="v_prompt_cancel" class="but" value="Cancel">
+
+  </div>
+  <div id="title">Interpret causal explanation why events in the target text happen.</div>
+  <div id="explanation">You will be given questions about causality in the target text.</div>
+  <div id="explanation">With given Q&A sets about contents and related articles, and by answering the causal question, interpret causality.</div>
+
+  <div id="pane">
+    <div id="left_text" class="div_pane">
+      <div id="cq_box">
+        <div id="cq_title">The causal quesiton that you need to answer by interpreting causality:</div>
+      <div id="causal_question"></div>
+    </div>
+    <div id="target_box">
+      <div id= "target_title" class="title"></div>
+      <div id="target_summary"></div>
+    </div>
+    <div id="qna_box">
+      <div id="qna_title" class="small_title">Q&A set for</div>
+      <div id="qna_content"></div>
+    </div>
+    </div>
+    <div id="right_questions" class="div_pane">
+      <div id="related_article_list">
+        <div id="r_title">Related article list:</div>
+        <div id="related_result"></div>
+      </div>
+      <div id="article_box">
+      </div>
+      <div id="interpret_box">
+        <div id="interpret_prompt">Answer the question about causality, with your interpretation, based on materials given.</div>
+        <textarea id="interpret_input"></textarea>
+      </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="but" id="tutorial">?</div>
+  <div id="tutorial_pane">Now you should interpret the event in the article and answer the question about causality. There are two sources given to you, informative Q&A sets about keywords in the article, and related articles that might contain causal events or background. You need to come up with answer of the question and write it down in the textarea in the lower right. If you are done, return with Next button. </div>
+
+  <input type="button" id="submit" name="submit" class="but" value="Next" id="submit">
+
+
+    </body>
+</html>

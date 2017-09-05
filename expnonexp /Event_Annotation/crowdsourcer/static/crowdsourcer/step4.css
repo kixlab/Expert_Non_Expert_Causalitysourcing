@@ -1,0 +1,407 @@
+
+body{
+  height: 100%;
+  width : 100%;
+  padding: 0;
+  margin: 0;
+}
+html{
+  height: 100%;
+  width: 100%;
+  padding: 0;
+}
+#title{
+  margin-right: 4%;
+  margin-left: 4%;
+  padding-top: 4%;
+  font-size: 30pt;
+  font-family: 'PT Sans', sans-serif;
+  margin-bottom: 1%;
+  padding: 0;
+}
+#explanation{
+  margin-right: 4%;
+  margin-left: 4%;
+  margin-bottom: 1%;
+  font-size: 16pt;
+  text-align: right;
+  font-family: 'PT Sans', sans-serif;
+}
+#pane{
+  height : 65%;
+  width: 92%;
+  margin-right: 4%;
+  margin-left: 4%;
+  padding: 0;
+
+}
+#left_text{
+  float: left;
+}
+#right_questions{
+  float: right;
+}
+
+.div_pane{
+  height: 100%;
+  width: 47%;
+  overflow-y: scroll;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}
+
+.but{
+  font-size: 20pt;
+  background-color: white;
+  border: solid 1px black;
+  border-left: none;
+  border-right: none;
+  font-family: 'PT Sans', sans-serif;
+  float: right;
+  margin-top: 2%;
+  margin-right: 4%;
+}
+
+.title{
+  font-size: 20pt;
+  font-family: 'PT Sans', sans-serif;
+}
+
+#target_summary{
+  font-family: 'Loto', sans-serif;
+  text-align: justify;
+  line-height: 150%;
+}
+
+#answer_prompt{
+  font-family: 'PT Sans', sans-serif;
+  font-size: 12pt;
+}
+
+a{
+  border : solid 1px transparent;
+  color: black;
+  text-decoration: none;
+}
+#q_title2{
+  visibility: hidden;
+}
+.answers{
+  font-family: 'PT Sans', sans-serif;
+  visibility: hidden;
+  position: absolute;
+}
+#write_pane{
+
+  width:98%;
+  height:50px;
+}
+#question_box{
+  font-style: italic;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 12pt;
+}
+
+.entity_q_set{
+  margin-top: 20px;
+  width: 100%;
+}
+.entity_q_title{
+  margin-bottom: 5px;
+  font-size: 15pt;
+  font-family: 'PT Sans', sans-serif;
+}
+ .question_type{
+   display: block;
+   width: 100%;
+   border: none;
+   border-top: solid 1px black;
+   border-bottom: solid 1px black;
+   margin-bottom: 5px;
+   font-family: 'Loto', sans-serif;
+   font-size: 12pt;
+   height: 15pt;
+ }
+.sbut{
+  background-color: white;
+  display: block;
+  float: right;
+  border: none;
+  border-top: solid 1px black;
+  border-bottom : solid 1px black;
+}
+.ssbut{
+  display: inline-block;
+  background-color: white;
+  position: relative;
+
+  border: none;
+  border-top: solid 1px black;
+  border-bottom : solid 1px black;
+}
+.sssbut{
+  display: inline-block;
+  background-color: white;
+  position: relative;
+
+  border: none;
+  border-top: solid 1px black;
+  border-bottom : solid 1px black;
+}
+.other_q_buts{
+  display: inline-block;
+  float: right;
+}
+.gen_q_buts{
+  display: inline-block;
+  float: right;
+}
+.gen_q_set{
+  margin-bottom: 3px;
+}
+.gen_q{
+  font-style: italic;
+  font-family: "PT Sans", sans-serif;
+  font-size: 12pt;
+  display: inline-block;
+}
+
+:focus {
+  outline : none;
+}
+
+.other_q{
+  font-style: italic;
+  font-family: "PT Sans", sans-serif;
+  font-size: 12pt;
+  display: inline-block;
+  width : 90%;
+}
+
+.other_q_sets{
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border-top : solid 1px black;
+  border-bottom : solid 1px black;
+}
+#vote_prompt{
+  position: absolute;
+  visibility: hidden;
+  margin-right : 20%;
+  margin-left: 20%;
+  margin-top: 10%;
+  height:40%;
+  width: 60%;
+  background-color: white;
+  font-style: italic;
+  font-family: "PT Sans", sans-serif;
+  font-size: 12pt;
+  z-index: 15;
+  border: solid 1.5px black
+}
+#v_prompt_head{
+  text-align: center;
+  font-family: "PT Sans", sans-serif;
+  font-size: 15pt;
+}
+.voting_r{
+  float: right;
+  margin-right: 5%;
+}
+.prompt_question{
+  width: 90%;
+  margin-left: 5%;
+}
+
+#v_prompt_cancel{
+  font-family: "PT Sans", sans-serif;
+  font-size: 12pt;
+}
+#overlay{
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color:#000;
+  opacity: .75;
+  z-index:10;
+}
+#searcher{
+  height: 100%;
+}
+#s_title{
+  height: 10%;
+  border-bottom: solid 1.5px black;
+}
+#search_result_box{
+  height: 90%;
+  border-bottom: solid 1.5px black;
+}
+#search_result_title{
+  height: 5%;
+  overflow-y: hidden;
+}
+#search_result_title_box{
+  border-bottom: solid 1px black;
+}
+#search_result{
+  height: 100%;
+
+  overflow-y: scroll;
+}
+#key_word_r_box{
+  height: 0%;
+  visibility: hidden;
+}
+#key_word_title{
+  height: 34%;
+  overflow-y: hidden;
+}
+#key_word_result{
+  height: 66%;
+  border-bottom: solid 1.5px black;
+  overflow-y: scroll;
+}
+#keyword_input{
+
+  visibility: hidden;
+  height: 0;
+}
+
+#keyword_text{
+  display: inline-block;
+  width: 80%;
+
+}
+
+#article_pane{
+  height: 0%;
+  visibility: hidden;
+  position: absolute;
+}
+#searcher{
+  height: 100%;
+}
+#a_title{
+  height: 10%;
+  border-bottom: solid 1px black;
+}
+#article{
+  height: 80%;
+  border-bottom: solid 1px black;
+  overflow-y: scroll;
+}
+#link_buts{
+  height: 5%;
+  float: right;
+}
+#empty{
+  visibility: hidden;
+  height: 0;
+
+}
+
+.entity_box{
+  border-left: solid 1px black;
+  border-right: solid 1px black;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 2px;
+
+  display: inline-block;
+  font-family: 'PT Sans', sans-serif;
+  font-size: 10px;
+}
+#cq_box{
+  height: 15%;
+  border-bottom: solid 1.5px black;
+}
+#cq_title{
+  font-family: 'PT Sans', sans-serif;
+  font-size: 15px;
+}
+#causal_question{
+  font-family: 'PT Sans', sans-serif;
+  font-size: 15px;
+  font-style: italic;
+}
+#target_box{
+  height: 85%;
+
+}
+#target_title{
+  height: 12%;
+}
+#target_summary{
+  height: 88%;
+  overflow-y: scroll;
+}
+#key_word_title{
+  font-family: 'PT Sans', sans-serif;
+
+}
+#keyword_title{
+  font-family: 'PT Sans', sans-serif;
+
+}
+#add{
+  float: right;
+}
+#article{
+  font-family: 'Loto', sans-serif;
+    text-align: justify;
+    line-height: 150%;
+}
+.previews{
+  font-family: 'Loto', sans-serif;
+}
+#search_result_title{
+  font-family: 'PT Sans', sans-serif;
+}
+
+#cancel{
+  margin-top : 10px;
+}
+#link{
+  margin-top: 10px;
+}
+#tutorial_pane{
+
+  font-family: "PT Sans", sans-serif;
+  text-align: left;
+  position: absolute;
+  margin-left: 6%;
+  width: 80%;
+  margin-top: 2%;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}
+#tutorial{
+  margin-left:4%;
+
+  float: left;
+}
+#pre_tutorial{
+  bottom: 8%
+  padding: 20px;
+  top:8%;
+  left:4%;
+  right:4%;
+  border-top: solid 1.5px black;
+  border-bottom: solid 1.5px black;
+  position : fixed;
+  background-color: white;
+  z-index: 9999999;
+  overflow: scroll;
+}
+p{
+  font-family: "PT Sans", sans-serif;
+}
+#proceed{
+  font-weight: bold;
+  text-align: center;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}

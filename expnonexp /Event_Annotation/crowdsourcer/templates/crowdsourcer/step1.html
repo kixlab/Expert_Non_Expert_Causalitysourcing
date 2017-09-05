@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'crowdsourcer/step1.css' %}" />
+<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+<script src="https://d3js.org/d3-drag.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<script type="text/javascript" src="{% static 'crowdsourcer/step1.js' %}" /></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+</head>
+<body id="main">
+  <div id="overlay"></div>
+  <div id="pre_tutorial">
+    <p>In the task, you are going to read a text and make 'relational' questions about it. Those questions will be sent to experts and utilized in helping future novices.</p>
+    <p>Then, what is good and meaning question? Good question and answer can inspire others. They can make even novices think critically, even enabling difficult tasks like interpreting causalities</p>
+    <p>Simple questions like "What is PPK?" might not give inspiration. Think more of relations between entities, like 'Since when A has been against B?'. However, keep in mind not to make causal questions(It is related to what we are going to do in future.)</p>
+    <p>Specifically, you are going to read a text. In the text, there might be entities. You can choose over 2 of them to make entity group. Then, make a question in the text input. You can proceed to next with Next button.</p>
+    <p>After making a question, you are going to be shown other's question. If an other's question is similar to yours, you can drag your's to others, to put them in same group</p>
+    <p>Also, if you think a question is good, you can vote for it by clicking it</p>
+    <p>If you did one of two behavior listed above, then you can vote for questions that are grouped as similar(if you dragged yours, you will see yours also). Among them choose one question that can be said as best.</p>
+    <p>By hitting Next button again after doing dragging and voting, you are submitting a task! You can keep doing it continuously, but entity group should not be overlapped! Good luck!</p>
+    <p id="proceed">Click to proceed</p>
+  </div>
+  <div id="vote_prompt">
+    <p id="v_prompt_head">Among these similar questions, which one the best?</p>
+    <div id="v_prompt_box"></div>
+    <input type=button id="v_prompt_cancel" class="but" value="Cancel">
+  </div>
+  <div id="title">Hard to understand the text?</div>
+  <div id="explanation">If you do not understand elements in the text, you can ask experts about them.</div>
+  <div id="explanation">However, questions need to be clever to draw better answer. Make the question relational.</div>
+  <div id="explanation">Please make at least two questions about elements in the text.</div>
+
+  <div id="pane">
+    <div id="left_text" class="div_pane">
+      <div id= "target_title" class="title"></div>
+      <div id="target_summary"></div>
+    </div>
+    <div id="right_questions" class="div_pane">
+      <div>
+        <div id="q_title" class="title">Questions</div>
+        <div id="entity_title">Entities considered</div>
+        <div id="entities_involved"></div>
+        <div id="question_box">
+          <div id="question_others_title" class="s_title"></div>
+          <div id="question_others"></div>
+          <div id="question_self_title" class="s_title">Your Question</div>
+          <div id="question_self"></div>
+        </div>
+        <div id="input_box">
+          <input type="text" id="type">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+    <div class="but" id="tutorial">?</div>
+    <div id="tutorial_pane">By clicking entities(shaded ones) in the article, you add entities into your question set. Then you should make a relative question which involves added entities(at least 2 entities should be involved.). You can enter your question in text input and then you can proceed to next by hitting Next button.</div>
+
+  <input type="button" id="submit" name="submit" class="but" value="Next">
+
+
+    </body>
+</html>

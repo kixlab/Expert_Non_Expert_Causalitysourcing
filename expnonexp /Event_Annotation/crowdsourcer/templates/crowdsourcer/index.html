@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'crowdsourcer/style.css' %}" />
+<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+<script src="https://d3js.org/d3-drag.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+
+
+</head>
+<body id="main">
+<script type="text/javascript" src="{% static 'crowdsourcer/sourcer.js' %}" /></script>
+  <div id="overlay">
+  <p id="Loading">Please wait. It is Loading...</p></div>
+
+  <div id="header">
+    <div id="sub_header">
+    <p id = "instruction"></p>
+    <div id = "evidence_box">
+      <div id = "R_support" class="support"></div>
+      <div id = "N_support" class="support"></div>
+    </div>
+  </div>
+  </div>
+  <div id="texts">
+
+      <div id="text_prev" class="text_box">
+        <div class="sum_con">
+        <div id="p_full_text" class = "full_text">
+          <p id="p_ft_title" class="sum_title">Review :</p>
+          <p id="p_ft" class="ft"></p>
+        </div>
+      </div>
+      </div>
+
+
+  </div>
+  <div id="buttons">
+    <button id="relation" class="button">Related</button>
+    <button id="nothing" class="button">Not Related</button>
+  </div>
+
+    </body>
+</html>

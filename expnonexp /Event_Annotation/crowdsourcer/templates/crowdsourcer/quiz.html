@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'crowdsourcer/quiz.css' %}" />
+<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+<script src="https://d3js.org/d3-drag.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<script type="text/javascript" src="{% static 'crowdsourcer/quiz.js' %}" /></script>
+
+
+</head>
+<body id="main">
+  <div id="title">Solve the problem.</div>
+  <div id="explanation">The purpose is to decide whether you are a subject that can participate in the following work.</div>
+  <div id="explanation">Expert or novice might get further task, based on the characteristic of following task.</div>
+
+  <div id="pane">
+    <div id="q1" class='question'>
+      <div id="q1_q" class='q'></div>
+      <div id="q1_c1" class="c1">
+        <label class="l"><input type="radio" name="q1_a" value="1"></input></label>
+        <label class="l"><input type="radio" name="q1_a" value="2"></input></label>
+        <label class="l"><input type="radio" name="q1_a" value="3"></input></label>
+        <label class="l"><input type="radio" name="q1_a" value="4"></input></label>
+        <label class="l"><input type="radio" name="q1_a" value="5"></input></label>
+      </div>
+    </div>
+    <div id="q2" class='question'>
+      <div id="q2_q" class='q'></div>
+      <div id="q2_c1" class="c1">
+        <label class="l"><input type="radio" name="q2_a" value="1"></input></label>
+        <label class="l"><input type="radio" name="q2_a" value="2"></input></label>
+        <label class="l"><input type="radio" name="q2_a" value="3"></input></label>
+        <label class="l"><input type="radio" name="q2_a" value="4"></input></label>
+        <label class="l"><input type="radio" name="q2_a" value="5"></input></label>
+      </div>
+    </div>
+    <div id="q3" class='question'>
+      <div id="q3_q" class='q'></div>
+      <div id="q3_c1" class="c1">
+        <label class="l"><input type="radio" name="q3_a" value="1"></input></label>
+        <label class="l"><input type="radio" name="q3_a" value="2"></input></label>
+        <label class="l"><input type="radio" name="q3_a" value="3"></input></label>
+        <label class="l"><input type="radio" name="q3_a" value="4"></input></label>
+        <label class="l"><input type="radio" name="q3_a" value="5"></input></label>
+      </div>
+    </div>
+  </div>
+  <input type="button" name="submit" class="but" value="Not Expert in this domain" id="not_expert">
+  <input type="button" name="submit" class="but" value="Submit" id="submit">
+
+
+    </body>
+</html>

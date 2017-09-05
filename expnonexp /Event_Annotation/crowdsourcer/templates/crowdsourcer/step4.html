@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'crowdsourcer/step4.css' %}" />
+<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+<script src="https://d3js.org/d3-drag.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<script type="text/javascript" src="{% static 'crowdsourcer/step4.js' %}" /></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+</head>
+<body id="main">
+  <div id="empty"></div>
+  <div id="vote_prompt">
+    <p id="v_prompt_head">Among these, which one do you think best represents your idea on the question?</p>
+    <div id="v_prompt_box"></div>
+    <input type=button id="v_prompt_cancel" class="but" value="Back">
+
+  </div>
+  <div id="title">Someone struggled in clarifying causalities of the text.</div>
+  <div id="explanation">You might be able to help them, by linking related other articles.</div>
+  <div id="explanation">Please find related articles from article database with keywords.</div>
+
+  <div id="pane">
+    <div id="left_text" class="div_pane">
+      <div id="cq_box">
+        <div id="cq_title">The causal quesiton that you should add relate articles:</div>
+      <div id="causal_question"></div>
+    </div>
+    <div id="target_box">
+      <div id= "target_title" class="title"></div>
+      <div id="target_summary"></div>
+    </div>
+    </div>
+    <div id="right_questions" class="div_pane">
+      <div id="searcher">
+        <div id="s_title" class="title">Search related articles</div>
+
+        <div id="search_result_box">
+          <div id="search_result_title_box">
+          <div id="search_result_title"><b>Related Articles</b></div>
+        </div>
+          <div id="search_result"></div>
+        </div>
+
+        <div id="key_word_r_box">
+        <div id="key_word_title">Keywords used in searching related articles</div>
+        <div id="key_word_result"></div>
+      </div>
+        <div id="keyword_input">
+          <div id="keyword_title">Search with keywords from autocomplete</div>
+          <div>
+          <input type="text" id="keyword_text">
+          <input type="button" class="ssbut" value="Add" id="add">
+        </div>
+        </div>
+      </div>
+      <div id="article_pane">
+        <div id="a_title" class="title">Article selected</div>
+        <div id="article"></div>
+        <div id="link_buts">
+          <input type="button" class="ssbut" value="Link" id="link">
+          <input type="button" class="ssbut" value="Back" id="cancel">
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="but" id="tutorial">?</div>
+  <div id="tutorial_pane">Now you should link related articles with the causal question from novice(which is above the target text in the left). You can take a look at and link articles in the right pane by clicking them. Linked articles are shown in bold.</div>
+  <input type="button" id="submit" name="submit" class="but" value="Next" id="submit">
+
+
+    </body>
+</html>

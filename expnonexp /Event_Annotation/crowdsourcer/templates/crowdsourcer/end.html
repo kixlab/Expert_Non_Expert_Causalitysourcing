@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'crowdsourcer/end.css' %}" />
+<script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+<script src="https://d3js.org/d3-drag.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<script type="text/javascript" src="{% static 'crowdsourcer/end.js' %}" /></script>
+
+
+</head>
+<body id="main">
+  <div id="box">
+  <div id="prompt1"></div>
+  <div id="prompt2"></div>
+  <div id="question"></div>
+  <textarea id="answer"></textarea>
+  <input type="button" id="return" value="Return">
+</div>
+    </body>
+</html>
