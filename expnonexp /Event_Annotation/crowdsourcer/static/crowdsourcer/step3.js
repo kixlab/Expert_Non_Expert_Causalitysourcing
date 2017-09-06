@@ -378,7 +378,7 @@ Show = function(subject_id){
   addition = 0;
   $(".gen_q_sets").css("height", "35%")
   $("#question_box_self").css("height", "42.5%")
-  $("#explanation_2").text("Please make one more 'why' question that is different from what others came up with")
+  $("#explanation_2").text("Please group your question with others if they are similar, or vote for others if they are good questions.")
   $("#submit").off('click').on('click', function(){
 
     Return_data();
@@ -431,6 +431,12 @@ Show = function(subject_id){
 other_q_prompt = function(other_g_id, t){
   var group= q_sets_2[other_g_id]['q_list']
   if(group.length<2){
+    var dic = q_sets_2[other_g_id]['q_list'][0]
+    dic['group_id'] = other_g_id
+    dic['num_vote']+=1;
+    back_q.push(dic);
+    $(t).off("click").droppable('disable').off("mouseover").off("mouseout").css("color", "#e5e5e5")
+    alert("Your vote is reflected")
     return;
   }
 
@@ -484,7 +490,7 @@ self_prompt=function(other_g_id, t, gen_id, gen_true_id){
         $("#overlay").css("visibility", "hidden");
         $("#v_prompt_box").text("");
         $(t).off("click").droppable('disable').off("mouseover").off("mouseout").css("color", "#e5e5e5")
-        $("#"+gen_true_id).off("click").off("draggable").off("mouseout").off("mouseover").css("color","#e5e5e5")
+        $("#"+gen_true_id).off("click").draggable("disable").off("mouseout").off("mouseover").css("color","#e5e5e5")
     })
   }
   //var gen_id = $("input[name='self_r']:checked").attr("id")
@@ -503,6 +509,7 @@ self_prompt=function(other_g_id, t, gen_id, gen_true_id){
       $("#overlay").css("visibility", "hidden");
       $("#v_prompt_box").text("");
       $(t).off("click").droppable('disable').off("mouseover").off("mouseout").css("color", "#e5e5e5")
+      $("#"+gen_true_id).off("click").draggable('disable').off("mouseout").off("mouseover").css("color","#e5e5e5")
 
     })
   }

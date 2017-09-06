@@ -27,6 +27,7 @@ var search_entries=[];
 var linked=[];
 
 var causal_question_data;
+var done_q=[];
 $(document).ready(function(e){
   $("#proceed").on("click", function(){
     $("#pre_tutorial").css("visibility", "hidden")
@@ -44,7 +45,7 @@ $("#v_prompt_cancel").on("click", function(){
   }).on("click", function(){
     $("#article_pane").css("visibility","hidden").css("height","0").css("position","absolute")
     $("#searcher").css("visibility", "visible").css("height","100%").css("position","relative")
-    $("#tutorial_pane").text("Now you should link related articles with the causal question from novice(which is above the target text in the left). You can search for related articles with keywords. You can add keyword from autocomplete to pane above the autocomplete pane, and related articles that include all keywords will be searched and bd shown in the Related Articles pane. You can take a look at and link articles by clicking them. Linked articles are shown in bold.");
+    $("#tutorial_pane").text("Now you should link related articles with the causal question generated from novices after reading the target text(The question is above the target text in the left). You can take a look at and link articles in the right pane by clicking them. Linked articles are shown in bold.");
   })
   target_text_ready();
   fetch_causal_question();
@@ -96,9 +97,12 @@ fetch_causal_question = function(){
   $.ajax({
     url: '/crowdsourcer/fetch_causal_question',
     data: {
+      'done_q' : JSON.stringify(done_q),
     },
     dataType: 'json',
     success: function(data){
+
+      if(!data.done){
       causal_question_data = JSON.parse(data.causal_question_data)
       console.log(causal_question_data)
       $("#causal_question").text(causal_question_data['question'])
@@ -108,7 +112,10 @@ fetch_causal_question = function(){
       console.log(sub_art)
       Search_articles();
     }
-    },
+  }else{
+    window.location.href ="/crowdsourcer/end_4/"
+  }
+},
     error: function(data){
       alert("Error");
     }
@@ -201,9 +208,9 @@ Search_articles=function(){
     console.log($(sub_art[indexes[i]]['summary']).find("sup").remove().text())
     $("#search_result").append("<div id='preview_"+indexes[i].toString()+"' class='previews'>"+sub_art[indexes[i]]['summary']+"</div>").find("sup").remove()
     $("#preview_"+indexes[i].toString()).text(sub_art[indexes[i]]['title'])//$("#preview_"+indexes[i].toString()).text().substr(0, 50)+"...")
-    if(causal_question_data['linked_article_list'].includes(sub_art[indexes[i]]['title'])){
-      $("#preview_"+indexes[i].toString()).css('background-color', 'grey');
-    }
+    //if(causal_question_data['linked_article_list'].includes(sub_art[indexes[i]]['title'])){
+    //  $("#preview_"+indexes[i].toString()).css('background-color', 'grey');
+    //}
     if(linked.includes(sub_art[indexes[i]]['title'])){
       $("#preview_"+indexes[i].toString()).css('font-weight', 'bold');
     }
@@ -399,6 +406,7 @@ Return_data= function(){
   sending={}
   sending['q2g_id']=causal_question_data['q2g_id']
   sending['linked']=linked
+  done_q.push(causal_question_data['q2g_id'])
   console.log(sending)
 
   // add others
@@ -407,10 +415,12 @@ Return_data= function(){
     url: '/crowdsourcer/step4_return',
     data: {
       'data' : JSON.stringify(sending),
+
     },
     dataType: 'json',
     success: function(data){
       console.log("data saved");
+      alert("Your task is submitted.")
       search_entries=[]
       linked=[]
       $("#causal_question").empty()

@@ -213,6 +213,16 @@ fetch_entity_questions=function(){
             for(var i=0; i<q_sets[g_id]['list'].length; i++){
               $("#v_prompt_box").append("<div id='prompt_"+id+"_"+i+"' class='prompt_element'>"+q_sets[g_id]['list'][i]['question']+"</div>")
             }
+          }else{
+            alert("Your vote is reflected!")
+            dic={}
+            dic['group_id'] = q_sets[g_id]['group_id'];
+            dic['num_vote']= q_sets[g_id]['list'][0]['vote']+1
+            dic['question'] = q_sets[g_id]['list'][0]['question']
+            dic['id'] = q_sets[g_id]['list'][0]['id']
+            back_q.push(dic)
+            $("#"+g_id.toString()).off("mouseout").off("mouseover").off("click")
+            .droppable("disable").css("color","#e5e5e5")
           }
           $('.prompt_element').on("mouseover", function(){
             $(this).css("color", "grey")
@@ -479,7 +489,7 @@ Return_data= function(){
     },
     dataType: 'json',
     success: function(data){
-      $("#tutorial_pane").text("By clicking entities(shaded ones) in the article, you add entities into your question set. Then you should make a relative question which involves added entities(at least 2 entities should be involved.). You can enter your question in text input and then you can proceed to next by hitting Next button.")
+      $("#tutorial_pane").text("By clicking entities(shaded ones) in the article, you add entities into your question set. Then you should make a relative question which involves added entities(at least 2 entities should be involved.). You can enter your question in text input(try to make it not causal but relational!) and you can proceed to next by hitting Next button.")
       generate={}
       back_q =[]
 

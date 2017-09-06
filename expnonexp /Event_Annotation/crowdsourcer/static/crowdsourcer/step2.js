@@ -153,7 +153,15 @@ fetch_questions=function(){
       done_q.push(cur_q['group_id'])
       console.log(cur_q)
       console.log(cur_q['entity'])
-      $("#subject").text($("#"+cur_q['entity']).text());
+      var subject_text = ""
+      for(var i =0; i<cur_q['entity'].length; i++){
+        if(i!=0){
+          subject_text=subject_text+", "
+        }
+        subject_text= subject_text+cur_q['entity'][i]
+
+      }
+      $("#subject").text(subject_text);
       $("a").css("background-color","transparent")
       for(var i=0; i<cur_q['entity'].length; i++){
       $("#"+cur_q['entity'][i]).css("background-color", "#e5e5e5")
@@ -161,7 +169,7 @@ fetch_questions=function(){
       for(var i=0; i<cur_q['answer_list'].length; i++){
         $("#other_"+(i+1).toString()).text(cur_q['answer_list'][i]['answer'])
       }
-      $("#question_box").text(cur_q['question']);
+      $("#question_box").text("Q : "+cur_q['question']);
       $("#submit").off('click').on("click", function(){
         if($("#write_pane").val().length>5){
         if(cur_q['answer_list'].length==0){
@@ -234,6 +242,7 @@ Return_data= function(){
       console.log("data saved");
       $("textarea").val("")
       $(".answers").css("visibility", "hidden").css("position", "absolute")
+      $("#others").css("visibility", "hidden").css("position", "absolute")
       fetch_questions();
   },
     error: function(data){

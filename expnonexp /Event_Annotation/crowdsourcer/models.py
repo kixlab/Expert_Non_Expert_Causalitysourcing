@@ -107,8 +107,9 @@ class After_task_QA(models.Model):
     step = models.IntegerField(default = 0)
     expert = models.BooleanField(default = False)
     def __str__(self):
+        exp=""
         if self.expert :
             exp = "expert"
         else :
             exp = "novice"
-        return str(step)+"_"+exp+"_"+answer
+        return str(self.step)+"_"+exp+"_"+self.answer

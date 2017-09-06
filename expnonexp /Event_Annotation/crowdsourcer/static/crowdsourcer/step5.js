@@ -27,6 +27,7 @@ var search_entries=[];
 var linked=[];
 
 var causal_question_data;
+var done_q=[];
 $(document).ready(function(e){
   $("#proceed").on("click", function(){
     $("#pre_tutorial").css("visibility", "hidden")
@@ -98,9 +99,11 @@ fetch_causal_question = function(){
   $.ajax({
     url: '/crowdsourcer/fetch_causal_question_step5',
     data: {
+      'done_q' : JSON.stringify(done_q)
     },
     dataType: 'json',
     success: function(data){
+      if(!data.end){
       $("#related_result").empty();
       $("#article_box").empty();
       causal_question_data = JSON.parse(data.causal_question_data)
@@ -115,12 +118,23 @@ fetch_causal_question = function(){
             break;
           }
         }
-        $("#related_result").append("<div id='preview_"+i.toString()+"' class='rel_art_prev'>"+sub_art[i]['summary']+"</div>").find("sup").remove()
-        $("#preview_"+i.toString()).text($("#preview_"+i.toString()).text().substr(0, 50)+"...")
+        $("#related_result").append("<div id='preview_"+i.toString()+"' class='rel_art_prev'>"+sub_art[i]['title']+"</div>").find("sup").remove()
+      //  $("#preview_"+i.toString()).text($("#preview_"+i.toString()).text().substr(0, 50)+"...")
       //  console.log("this is sumtext", sum_text)
       }
       reset_related_articles();
-    },
+    }else{
+      var sp_href = window.location.href.split("_")
+      console.log(sp_href)
+      var mark = sp_href[sp_href.length-1]
+      if(mark.includes("n")){
+        window.location.href = "/crowdsourcer/end_n5"
+
+      }else if(mark.includes("e")){
+        window.location.href = "/crowdsourcer/end_e5"  
+      }
+    }
+  },
     error: function(data){
       alert("Error");
     }
@@ -534,7 +548,7 @@ Return_data= function(){
   }else if(mark.includes("e")){
     sending['is_expert']=true;
   }
-
+  done_q.push(causal_question_data['q2g_id'])
   sending['q2g_id']=causal_question_data['q2g_id']
   sending['interpretation']=$("#interpret_input").val()
   console.log(sending)

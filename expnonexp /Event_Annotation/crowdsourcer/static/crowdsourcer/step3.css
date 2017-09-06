@@ -253,7 +253,9 @@ a{
 }
 .gen_q_title{
   font-family: 'PT Sans', sans-serif;
-
+}
+.question_box_other_title{
+  font-family: 'PT Sans', sans-serif;
 }
 .gen_q_sets{
   max-height: 60%;
@@ -277,9 +279,11 @@ a{
   position: absolute;
   margin-left: 6%;
   width: 80%;
+  height: 8%;
   margin-top: 2%;
   border-top: solid 1px black;
   border-bottom: solid 1px black;
+  overflow: scroll;
 }
 #tutorial{
   margin-left:4%;
@@ -312,5 +316,9 @@ p{
   font-weight: bold;
   text-align: center;
   border-top: solid 1px black;
+  border-bottom: solid 1px black;
+}
+
+.prompt_question{
   border-bottom: solid 1px black;
 }

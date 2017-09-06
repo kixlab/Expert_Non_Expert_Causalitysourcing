@@ -128,8 +128,14 @@ def fetch_sub_text(request):
     }
     return JsonResponse(data)
 def fetch_causal_question(request):
+    done_q =json.loads(request.GET.get("done_q"))
     dic={}
-    q2g = Question2_group.objects.annotate(art_link = Sum('q2_art_link__num_vote')).order_by('art_link')[0]
+    if Question2_group.objects.exclude(Q2G_id__in=done_q).count()==0:
+        data={
+            'done' : True,
+        }
+        return JsonResponse(data)
+    q2g = Question2_group.objects.exclude(Q2G_id__in=done_q).annotate(art_link = Sum('q2_art_link__num_vote')).order_by('art_link')[0]
     dic['q2g_id']=q2g.Q2G_id
     max_id = q2g.question2_set.aggregate(Max('Q2_id'))['Q2_id__max']
     q2 = q2g.question2_set.filter(Q2_id=max_id)[0].question
@@ -142,13 +148,20 @@ def fetch_causal_question(request):
     print(q2, q2g.Q2G_id)
     print(dic)
     data={
+        'done' : False,
         'causal_question_data' : json.dumps(dic)
     }
     return JsonResponse(data)
 
 def fetch_causal_question_step5(request):
+    done_q = json.loads(request.GET.get("done_q"))
     dic={}
-    q2g = Question2_group.objects.annotate(interpret_num = Count('interpretation')).order_by('interpretation')[0]
+    if Question2_group.objects.exclude(Q2G_id__in=done_q).count()==0:
+        data={
+            'end' : True
+        }
+        return JsonResponse(data)
+    q2g = Question2_group.objects.exclude(Q2G_id__in=done_q).annotate(interpret_num = Count('interpretation')).order_by('interpretation')[0]
     print(q2g.interpretation_set.count())
     dic['q2g_id']=q2g.Q2G_id
     max_id = q2g.question2_set.aggregate(Max('Q2_id'))['Q2_id__max']
@@ -163,6 +176,7 @@ def fetch_causal_question_step5(request):
     print(q2, q2g.Q2G_id)
     print(dic)
     data={
+        'end' : False,
         'causal_question_data' : json.dumps(dic)
     }
     return JsonResponse(data)
@@ -294,7 +308,7 @@ def fetch_q_a_step3(request):
         dic ={}
         dic['entity'] = e.entity_id
         dic['question_group']=[]
-        qg_set = e.question1_group_set.annotate(ans_num = Count('answer1')).filter(ans_num__gte = 3).annotate(tot_votes = Sum('question1__num_vote')).order_by('-tot_votes')
+        qg_set = e.question1_group_set.annotate(tot_votes = Sum('question1__num_vote')).order_by('-tot_votes')
         for qg in qg_set:
             dic2={}
             dic2['group_id'] = qg.Q1G_id
@@ -470,9 +484,9 @@ def gen_target_art():
     Question2.objects.all().delete()
     Question2_group.objects.all().delete()
     Q2_Art_Link.objects.all().delete()
-    #Answer1.objects.all().delete()
-    #Question1.objects.all().delete()
-    #Question1_group.objects.all().delete()
+    Answer1.objects.all().delete()
+    Question1.objects.all().delete()
+    Question1_group.objects.all().delete()
 
     #Target_Article.objects.all().delete()
     #t = Target_Article(title="Manbij", summary="")
