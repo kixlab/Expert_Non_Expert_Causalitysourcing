@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
@@ -14,8 +16,9 @@ import os
 from os import listdir
 from os.path import isfile, join
 import uuid
+import codecs
+import io
 # Create your views here.
-
 
 def index(request):
     return render(request, 'crowdsourcer/index.html',{})
@@ -72,7 +75,7 @@ def fetch_quiz(request):
     return JsonResponse(data)
 
 def step1_info_Q_gen(request):
-    #gen_target_art()
+   # gen_target_art()
     #gen_sub_art()
     return render(request, 'crowdsourcer/step1.html',{})
 
@@ -513,32 +516,32 @@ def gen_target_art():
 
     Target_Article.objects.all().delete()
     t = Target_Article(title="Korean-War", summary="")
-    f = open(os.path.join(os.path.dirname(__file__), "Korean-War/Korean-War"), 'r')
+    f = codecs.open(os.path.join(os.path.dirname(__file__), "Korean-War/Korean-War"), 'r', 'utf8')
     tt = f.read()
-    print(tt)
+#    print(tt)
     t.summary = tt
     f.close()
     t.save()
 
 def gen_sub_art():
-    choice.objects.all().delete()
-    Pre_step_Q.objects.all().delete()
-    #Interpretation.objects.all().delete()
-    #Question2.objects.all().delete()
-    #Q2_Art_Link.objects.all().delete()
-    #Question2_group.objects.all().delete()
+   # choice.objects.all().delete()
+   # Pre_step_Q.objects.all().delete()
+    Interpretation.objects.all().delete()
+    Question2.objects.all().delete()
+    Q2_Art_Link.objects.all().delete()
+    Question2_group.objects.all().delete()
 
-    #Answer1.objects.all().delete()
-    #Question1.objects.all().delete()
-    #Question1_group.objects.all().delete()
+    Answer1.objects.all().delete()
+    Question1.objects.all().delete()
+    Question1_group.objects.all().delete()
     Article.objects.all().delete()
     questions = []
     onlyfiles = []
-    for f in listdir(join(os.path.dirname(__file__), "Korean-War/questions")):
+    """for f in listdir(join(os.path.dirname(__file__), "Korean-War/questions")):
         questions.append(f)
     print(questions)
     for i in questions:
-        f= open(os.path.join(os.path.dirname(__file__), "Korean-War/questions/"+i), "r")
+        f= codecs.open(os.path.join(os.path.dirname(__file__), "Korean-War/questions/"+i), "r", encoding="utf8")
         q = Pre_step_Q(pre_step_q_id=Pre_step_Q.objects.count(), question=i)
         q.save()
         for j in range(0, 5):
@@ -555,14 +558,14 @@ def gen_sub_art():
             elif tt[0]=="F":
                 c.is_right=False
             c.save()
-
+        f.close()
     for f in listdir(join(os.path.dirname(__file__), "Korean-War/Sub")):
         onlyfiles.append(f)
-    print(onlyfiles)
-    print("subart")
+#    print(onlyfiles)
+#    print("subart")
     for i in onlyfiles:
-        f = open(os.path.join(os.path.dirname(__file__), "Korean-War/Sub/"+i), "r")
+        f = codecs.open(os.path.join(os.path.dirname(__file__), "Korean-War/Sub/"+i), "r", encoding="utf8")
         tt = f.read()
         t=Article(title=i[11:], summary=tt)
         t.save()
-        f.close()
+        f.close()"""

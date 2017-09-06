@@ -80,7 +80,7 @@ target_text_ready = function(){
       .on("click", function(){
         entity_on_click(this)
       })
-    //  gen_entities();
+//      gen_entities();
 
       $("#submit").on("mouseover", function(){
         $(this).css("color", "green");
