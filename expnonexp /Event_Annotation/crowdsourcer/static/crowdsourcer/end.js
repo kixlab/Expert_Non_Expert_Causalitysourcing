@@ -6,6 +6,7 @@ $(document).ready(function(){
   console.log(indicator)
   if(indicator.includes("1")){
     Show_end()
+
   }else if(indicator.includes("2")){
     Show_end()
   }else if(indicator.includes("3")){
@@ -73,7 +74,8 @@ Return_question = function(step, expert){
 
 Show_end= function(){
   $("#prompt1").text("Thank you for participating!");
-  $("#prompt2").text("")
+  splits = window.location.href.split("/")
+  $("#prompt2").text("Your code is "+splits[splits.length-2])
   $("#question").text("")
   $("#answer").css("visibility", "hidden").css("position", "absolute")
   $("#return").css("visibility", "hidden").css("position", "absolute")

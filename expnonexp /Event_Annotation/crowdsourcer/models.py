@@ -8,7 +8,7 @@ class Pre_step_Q(models.Model):
     pre_step_q_id = models.IntegerField(default = 0)
     question = models.TextField(default = "", max_length = 200)
     def __str__(self):
-        return str(self.pre_step_q_id)+"_"+question
+        return str(self.pre_step_q_id)+"_"+self.question
 
 class choice(models.Model):
     choice_id = models.IntegerField(default=0)
@@ -53,8 +53,9 @@ class Question1(models.Model):
     question = models.TextField(default ="", max_length = 1000)
     num_vote = models.IntegerField(default = 0)
     question_group = models.ForeignKey(Question1_group, on_delete = models.PROTECT)
+    worker_code = models.TextField(default="", max_length = 200)
     def __str__(self):
-        return str(self.question_group.Q1G_id)+"_"+str(self.Q1_id)+"_"+self.question
+        return self.worker_code+str(self.question_group.Q1G_id)+"_"+str(self.Q1_id)+"_"+self.question
 
 
 class Answer1_group(models.Model):
@@ -68,8 +69,15 @@ class Answer1(models.Model):
     answer = models.TextField(default = "", max_length = 1000)
     num_vote_A = models.IntegerField(default = 0)
     question_group = models.ForeignKey(Question1_group,default=None, on_delete = models.PROTECT)
+    worker_code = models.TextField(default="", max_length = 200)
     def __str__(self):
         return str(self.A1_id)+"_"+self.answer
+
+class Answer1_mid(models.Model):
+    worker_code = models.TextField(default="", max_length=200)
+    mid_answer = models.TextField(default = "", max_length=1000)
+    question_group = models.ForeignKey(Question1_group, default=None, on_delete=models.PROTECT)
+
 
 class Question2_group(models.Model):
     Q2G_id = models.IntegerField(default = 0)
@@ -81,10 +89,14 @@ class Q2_Art_Link(models.Model):
     Q2G = models.ForeignKey(Question2_group, on_delete=models.PROTECT)
     Article = models.ForeignKey(Article, on_delete=models.PROTECT)
     num_vote = models.IntegerField(default = 0)
+    worker_code = models.TextField(default="", max_length = 200)
     def __str__(self):
         return str(self.Q2G.Q2G_id)+self.Article.title
 
+
+
 class Question2(models.Model):
+    worker_code = models.TextField(default="", max_length = 200)
     Q2_id = models.IntegerField(default = 0)
     question = models.TextField(default="", max_length = 1000)
     num_vote = models.IntegerField(default = 0)
@@ -97,6 +109,7 @@ class Interpretation(models.Model):
     interpretation = models.TextField(default="", max_length = 1000)
     made_by_expert = models.BooleanField(default = False)
     question2_g = models.ForeignKey(Question2_group, on_delete = models.PROTECT)
+    worker_code = models.TextField(default="", max_length = 200)
     def __str__(self):
         return str(self.question2_g.Q2G_id)+"_"+str(self.int_id)+"_"+self.interpretation
 
@@ -106,6 +119,7 @@ class After_task_QA(models.Model):
     answer = models.TextField(default="", max_length= 1000)
     step = models.IntegerField(default = 0)
     expert = models.BooleanField(default = False)
+    worker_code = models.TextField(default="", max_length = 200)
     def __str__(self):
         exp=""
         if self.expert :

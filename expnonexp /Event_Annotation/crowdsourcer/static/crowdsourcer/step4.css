@@ -219,7 +219,7 @@ a{
 }
 #overlay{
   visibility: visible;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -286,6 +286,7 @@ a{
 }
 #a_title{
   height: 10%;
+  font-size: 16pt;
   border-bottom: solid 1px black;
 }
 #article{
@@ -324,8 +325,9 @@ a{
 }
 #causal_question{
   font-family: 'PT Sans', sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   font-style: italic;
+  font-weight: bold;
 }
 #target_box{
   height: 85%;

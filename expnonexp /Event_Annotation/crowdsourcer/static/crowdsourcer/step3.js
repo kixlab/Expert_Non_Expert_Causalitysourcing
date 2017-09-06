@@ -1,5 +1,5 @@
 var title, summary;
-
+var survey_code;
 var gen_q_num=0;
 var ex_num=0;
 
@@ -86,7 +86,7 @@ target_text_ready = function(){
     },
     dataType: 'json',
     success: function(data){
-
+      survey_code = data.worker_id;
       title = data.title;
       $("#target_title").text(title)
       summary = data.summary;
@@ -124,7 +124,9 @@ Show_next_or_return = function(){
     Show();
   }else{
     console.log(generate.concat(back_q))
+
     Return_data();
+
   }
 }
 
@@ -165,26 +167,6 @@ function remove_group_id(l, id){
   }
 }
 
-function find_q_sets_id(id){
-
-}
-
-entity_question_cancel= function(id){
-  $("#"+id).css("border", "solid 1px #e5e5e5").on("mouseover", function(){
-    $(this).css("background-color", "white")
-    .css("border", "solid 1px #e5e5e5")
-  }).on("mouseout", function(){
-    $(this).css("background-color", "#e5e5e5")
-    .css("border", "solid 1px transparent")
-  }).attr("href", function(){return "javascript:"})
-  $("#set_"+id).css("visibility","hidden").css("height","0").css("position","absolute")
-    .find(".gen_q_sets").children().css("visibility", function(){
-      var ii =parseInt($(this).attr("id").substr(7))
-      generate = remove_group_id(generate, ii)
-      return "visible"
-    }).remove();
-  $("#"+id+"_add").css("height","0");
-}
 
 fetch_questions=function(){
   $.ajax({
@@ -200,6 +182,7 @@ fetch_questions=function(){
         var sub_enti=q_sets[i]
         if(sub_enti['question_group'].length!=0){
           id = sub_enti['entity']
+          $("#"+id).css("background-color", "#e5e5e5").attr("class","a_ent")
           console.log(id)
           $("#question_box").append("<div class='entity_q_set' id='set_"+id+"'><div class='entity_q_title' id='title_"+id+"'>"+$("#"+id).attr("title")+"</div>");
           for(var j=0; j<sub_enti['question_group'].length; j++){
@@ -227,7 +210,7 @@ fetch_questions=function(){
               }
             }).on("mouseout", function(){
               id = parseInt($(this).attr('name'))
-              $("a").css("border", function(){
+              $(".a_ent").css("border", function(){
                 if($(this).attr("id")!=q_sets[id]['entity']){
                   return "solid 1px transparent";
 
@@ -241,7 +224,7 @@ fetch_questions=function(){
           }
           if(sub_enti['question_group'].length>0){
           $("#"+id).on("mouseover", function(){
-            $("a").css("background-color", "#e5e5e5")
+            $(".a_ent").css("background-color", "#e5e5e5")
             .css("border", "solid 1px transparent")
             $(".entity_q_set"+$(this).attr('id')).css("visibility", "hidden").css("position","absolute")
             $(this).css("background-color", "white")
@@ -268,7 +251,7 @@ fetch_questions=function(){
 }
 
 entity_on_click = function(t){
-  $("a").off('click').off('mouseout').off('mouseover')
+  $(".a_ent").off('click').off('mouseout').off('mouseover')
   $(t).css("border", "solid 1px black").on("mouseover",function(){
     $(this).css("color", "grey")
   }).on("mouseout", function(){
@@ -282,7 +265,7 @@ entity_off_click = function(t){
   for (var i=0; i<len; i++){
     if(q_sets[i]['question_group'].length>0){
   $("#"+q_sets[i]['entity']).on("mouseover", function(){
-    $("a").css("background-color", "#e5e5e5")
+    $(".a_ent").css("background-color", "#e5e5e5")
     .css("border", "solid 1px transparent")
     $(".entity_q_set"+$(this).attr('id')).css("visibility", "hidden").css("position","absolute")
     $(this).css("background-color", "white")
@@ -359,11 +342,12 @@ Return_data= function(){
   $.ajax({
     url: '/crowdsourcer/step3_return',
     data: {
+      'survey_code' : survey_code,
       'data' : JSON.stringify(sending),
     },
     dataType: 'json',
     success: function(data){
-      window.location.href="/crowdsourcer/end_3/"
+      window.location.href="/crowdsourcer/end_3/"+survey_code+"/"
   },
     error: function(data){
       alert("Error")
@@ -431,6 +415,7 @@ Show = function(subject_id){
 other_q_prompt = function(other_g_id, t){
   var group= q_sets_2[other_g_id]['q_list']
   if(group.length<2){
+  if(confirm("Do you think this question is good? Vote for this?")){
     var dic = q_sets_2[other_g_id]['q_list'][0]
     dic['group_id'] = other_g_id
     dic['num_vote']+=1;
@@ -438,6 +423,8 @@ other_q_prompt = function(other_g_id, t){
     $(t).off("click").droppable('disable').off("mouseover").off("mouseout").css("color", "#e5e5e5")
     alert("Your vote is reflected")
     return;
+  }
+  return;
   }
 
   console.log(other_g_id)

@@ -1,5 +1,7 @@
 var title, summary;
 
+var survey_code;
+var job_done_num=0;
 var gen_q_num=0;
 var ex_num=0;
 
@@ -55,7 +57,9 @@ target_text_ready = function(){
     },
     dataType: 'json',
     success: function(data){
-
+      survey_code = data.worker_id;
+      console.log(survey_code)
+      console.log("success")
       title = data.title;
       $("#target_title").text(title)
       summary = data.summary;
@@ -70,12 +74,13 @@ target_text_ready = function(){
       }).attr("id", function(){
         names.push($(this).attr("title"))
         ids.push($(this).attr("title").replace(/ /gi, "_").split("(")[0])
-        return  $(this).attr("title").replace(/ /gi, "_").split("(")[0]})
+        return  $(this).attr("title").replace(/ /gi, "_").split("(")[0]
+      })
       .attr("href", function(){return "javascript:"})
       .on("click", function(){
         entity_on_click(this)
       })
-      //gen_entities();
+    //  gen_entities();
 
       $("#submit").on("mouseover", function(){
         $(this).css("color", "green");
@@ -177,7 +182,9 @@ fetch_entity_questions=function(){
       if(q_sets.length==0){
         generate['num_vote']=1
         $("#type").val("");
-        Return_data();
+
+          Return_data();
+
 
       }else{
 
@@ -214,6 +221,7 @@ fetch_entity_questions=function(){
               $("#v_prompt_box").append("<div id='prompt_"+id+"_"+i+"' class='prompt_element'>"+q_sets[g_id]['list'][i]['question']+"</div>")
             }
           }else{
+            if(confirm("Do you think this question is good? Vote for this?")){
             alert("Your vote is reflected!")
             dic={}
             dic['group_id'] = q_sets[g_id]['group_id'];
@@ -223,6 +231,7 @@ fetch_entity_questions=function(){
             back_q.push(dic)
             $("#"+g_id.toString()).off("mouseout").off("mouseover").off("click")
             .droppable("disable").css("color","#e5e5e5")
+          }
           }
           $('.prompt_element').on("mouseover", function(){
             $(this).css("color", "grey")
@@ -247,11 +256,11 @@ fetch_entity_questions=function(){
             }
             $("#"+g_id.toString()).off("mouseout").off("mouseover").off("click")
             .droppable("disable").css("color","#e5e5e5")
-            generate['group_id']=q_sets[g_id]['group_id'];
-            $("#gen_q").draggable("disable").off("mouseout").off("mouseover").css("color","#e5e5e5")
+          //  generate['group_id']=q_sets[g_id]['group_id'];
+          //  $("#gen_q").draggable("disable").off("mouseout").off("mouseover").css("color","#e5e5e5")
             $("#vote_prompt").css("visibility","hidden")
             $("#overlay").css("visibility","hidden")
-            console.log(generate)
+            //console.log(generate)
             console.log(back_q)
           })
         }).droppable({
@@ -460,6 +469,7 @@ fetch_questions=function(){
 
 gen_entities=function(){
   var n = JSON.stringify(names)
+  console.log(n)
   var i = JSON.stringify(ids)
   $.ajax({
     url: '/crowdsourcer/gen_entities',
@@ -485,10 +495,15 @@ Return_data= function(){
   $.ajax({
     url: '/crowdsourcer/step1_return',
     data: {
+      'survey_code' : survey_code,
       'data' : JSON.stringify(back_q),
     },
     dataType: 'json',
     success: function(data){
+      job_done_num++;
+      if(job_done_num==5){
+        window.location.href="/crowdsourcer/end_1/"+survey_code+"/"
+      }
       $("#tutorial_pane").text("By clicking entities(shaded ones) in the article, you add entities into your question set. Then you should make a relative question which involves added entities(at least 2 entities should be involved.). You can enter your question in text input(try to make it not causal but relational!) and you can proceed to next by hitting Next button.")
       generate={}
       back_q =[]
@@ -511,7 +526,8 @@ Return_data= function(){
       $("#question_self").empty()
       $("#type").val("")
       $("#question_others_title").text("")
-
+      $("#v_prompt_box").empty();
+      alert("Your answer has been submitted");
       },
     error: function(data){
       alert("Error")

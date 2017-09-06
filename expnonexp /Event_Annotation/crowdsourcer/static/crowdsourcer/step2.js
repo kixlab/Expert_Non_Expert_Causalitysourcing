@@ -1,8 +1,8 @@
 var title, summary;
-
+var survey_code;
 var gen_q_num=0;
 var ex_num=0;
-
+var job_done_num=0;
 var names = []
 var ids = []
 
@@ -45,7 +45,7 @@ target_text_ready = function(){
     },
     dataType: 'json',
     success: function(data){
-
+      survey_code = data.worker_id;
       title = data.title;
       $("#target_title").text(title)
       summary = data.summary;
@@ -144,7 +144,7 @@ fetch_questions=function(){
     dataType: 'json',
     success: function(data){
       if(data.end){
-        window.location.href = '/crowdsourcer/end_2/'
+        window.location.href = '/crowdsourcer/end_2/'+survey_code
       }
       $("#tutorial_pane").text("Answer the question in the right side of the pane. You should consider that they are questions from those who do not know much about the domain. Please make your answer understandable, and easy to read. After you are done please press Next button.")
 
@@ -176,6 +176,7 @@ fetch_questions=function(){
           console.log("no added answers")
             Return_data();
           }else{
+            Return_mid_data();
             console.log("to next");
             $("#tutorial_pane").text("Now you can see answers by others above your input. Please take a look at them and improve your answer by referring to others'.")
 
@@ -234,16 +235,46 @@ Return_data= function(){
   $.ajax({
     url: '/crowdsourcer/step2_return',
     data: {
+      'survey_code' : survey_code,
       'data' : JSON.stringify(sending),
     },
     dataType: 'json',
     success: function(data){
+      job_done_num++;
+      if(job_done_num==5){
+        window.location.href = "/crowdsourcer/end_2/"+survey_code
+      }
       alert("Answer Returned!");
       console.log("data saved");
       $("textarea").val("")
       $(".answers").css("visibility", "hidden").css("position", "absolute")
       $("#others").css("visibility", "hidden").css("position", "absolute")
       fetch_questions();
+  },
+    error: function(data){
+      alert("Error")
+    }
+  })
+}
+
+Return_mid_data= function(){
+
+  sending={}
+  sending['entity']=cur_q['entity']
+  sending['group_id']=cur_q['group_id']
+  sending['answer']=$("#write_pane").val()
+
+  // add others
+
+  $.ajax({
+    url: '/crowdsourcer/step2_mid_return',
+    data: {
+      'survey_code' : survey_code,
+      'data' : JSON.stringify(sending),
+    },
+    dataType: 'json',
+    success: function(data){
+
   },
     error: function(data){
       alert("Error")

@@ -1,8 +1,8 @@
 var title, summary;
-
+var survey_code;
 var gen_q_num=0;
 var ex_num=0;
-
+var job_done_num=0;
 var names = []
 var ids = []
 
@@ -67,7 +67,7 @@ target_text_ready = function(){
     },
     dataType: 'json',
     success: function(data){
-
+      survey_code = data.worker_id
       title = data.title;
       $("#target_title").text(title)
       summary = data.summary;
@@ -105,7 +105,7 @@ fetch_causal_question = function(){
       if(!data.done){
       causal_question_data = JSON.parse(data.causal_question_data)
       console.log(causal_question_data)
-      $("#causal_question").text(causal_question_data['question'])
+      $("#causal_question").text("Q : "+causal_question_data['question'])
       if(sub_art==undefined){
       fetch_sub_article();
     }else{
@@ -113,7 +113,7 @@ fetch_causal_question = function(){
       Search_articles();
     }
   }else{
-    window.location.href ="/crowdsourcer/end_4/"
+    window.location.href ="/crowdsourcer/end_4/"+survey_code+"/"
   }
 },
     error: function(data){
@@ -129,8 +129,9 @@ fetch_sub_article = function(){
     },
     dataType: 'json',
     success: function(data){
-      sub_art = JSON.parse(data.texts)
+      sub_art = JSON.parse(data.texts).sort(function(a,b){return 0.5-Math.random()})
       for(var i =0; i<sub_art.length; i++){
+
         sub_art[i]['entity_list']=[]
         $("#empty").empty()
         $("#empty").append(sub_art[i]['summary'])
@@ -259,6 +260,7 @@ Search_articles=function(){
       $("#article_pane").css("height", "100%").css("visibility", "visible").css("position", "relative")
       $("#article").empty()
       $("#article").attr('name', sub_art_id)
+      $("#a_title").text(sub_art[sub_art_id]['title'])
       $("#article").append(sub_art[sub_art_id]['summary'])
       $("#article").find("sup").remove()
       $("#article").find("a").attr("href", "javascript:")
@@ -415,10 +417,14 @@ Return_data= function(){
     url: '/crowdsourcer/step4_return',
     data: {
       'data' : JSON.stringify(sending),
-
+      'survey_code' : survey_code,
     },
     dataType: 'json',
     success: function(data){
+      job_done_num++;
+      if(job_done_num==5){
+        window.location.href = "/crowdsourcer/end_4/"+survey_code+"/"
+      }
       console.log("data saved");
       alert("Your task is submitted.")
       search_entries=[]

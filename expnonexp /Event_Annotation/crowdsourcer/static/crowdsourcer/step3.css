@@ -76,7 +76,7 @@ html{
 
 a{
   border : solid 1px transparent;
-  background-color: #e5e5e5;
+
   color: black;
   text-decoration: none;
 }
@@ -232,8 +232,10 @@ a{
   font-size: 12pt;
 }
 #overlay{
+  word-wrap: break-word;
+  word-break: break-all;
   visibility: visible;
-  position: absolute;
+  position:absolute;
   top: 0;
   right: 0;
   bottom: 0;

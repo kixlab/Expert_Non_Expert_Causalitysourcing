@@ -2,16 +2,18 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.db.models import Max, Min, Count, F,Q, Sum
-from .models import Pre_step_Q, choice, Target_Article, Article, Entity, Question1_group, Question1, Answer1_group, Answer1, Question2_group, Question2, Interpretation, Q2_Art_Link, After_task_QA
+from .models import Pre_step_Q, choice, Target_Article, Article, Entity, Question1_group, Question1, Answer1_group, Answer1, Question2_group, Question2, Interpretation, Q2_Art_Link, After_task_QA, Answer1_mid
 import datetime
 from django.core.urlresolvers import reverse
 #from django.urls import reverse
 import json
 import random
 from random import shuffle
-import nltk.data as nltk_d
+#import nltk.data as nltk_d
 import os
-
+from os import listdir
+from os.path import isfile, join
+import uuid
 # Create your views here.
 
 
@@ -71,6 +73,7 @@ def fetch_quiz(request):
 
 def step1_info_Q_gen(request):
     #gen_target_art()
+    #gen_sub_art()
     return render(request, 'crowdsourcer/step1.html',{})
 
 def step2_info_Q_ans(request):
@@ -94,22 +97,23 @@ def step5_causality_interpret_n(request):
 def not_pass(request):
     return render(request, 'crowdsourcer/not_pass.html', {})
 
-def end_1(request):
+def end_1(request, survey_code):
     return render(request, 'crowdsourcer/end.html', {})
-def end_2(request):
+def end_2(request, survey_code):
     return render(request, 'crowdsourcer/end.html', {})
-def end_3(request):
+def end_3(request, survey_code):
     return render(request, 'crowdsourcer/end.html', {})
-def end_4(request):
+def end_4(request, survey_code):
     return render(request, 'crowdsourcer/end.html', {})
-def end_e5(request):
+def end_e5(request, survey_code):
     return render(request, 'crowdsourcer/end.html', {})
-def end_n5(request):
+def end_n5(request, survey_code):
     return render(request, 'crowdsourcer/end.html', {})
 
 def fetch_target_text(request):
     target = Target_Article.objects.all()[0]
     data={
+        'worker_id' : str(uuid.uuid4())[:8],
         'title' : target.title,
         'summary' : target.summary,
     }
@@ -117,7 +121,7 @@ def fetch_target_text(request):
 
 def fetch_sub_text(request):
     text_list = []
-    tl = Article.objects.all()
+    tl = Article.objects.annotate(link_count = Count("q2_art_link")).order_by("-link_count").all()
     for ot in tl:
         dic={}
         dic['title'] = ot.title
@@ -161,7 +165,8 @@ def fetch_causal_question_step5(request):
             'end' : True
         }
         return JsonResponse(data)
-    q2g = Question2_group.objects.exclude(Q2G_id__in=done_q).annotate(interpret_num = Count('interpretation')).order_by('interpretation')[0]
+    q2g = Question2_group.objects.exclude(Q2G_id__in=done_q).annotate(interpret_num = Count('interpretation')).order_by('interpret_num')[0]
+    print(q2g)
     print(q2g.interpretation_set.count())
     dic['q2g_id']=q2g.Q2G_id
     max_id = q2g.question2_set.aggregate(Max('Q2_id'))['Q2_id__max']
@@ -170,11 +175,11 @@ def fetch_causal_question_step5(request):
     dic['linked_article_list']=[]
     links = q2g.q2_art_link_set.all().order_by('-num_vote')
     for link in links:
-        print("this vote", link.num_vote)
+        print("this is", link.Article.title)
         dic['linked_article_list'].append(link.Article.title)
     #print(Question2_group.objects.annotate(art_link = Count('q2_art_link')))
-    print(q2, q2g.Q2G_id)
-    print(dic)
+    #print(q2, q2g.Q2G_id)
+    #print(dic)
     data={
         'end' : False,
         'causal_question_data' : json.dumps(dic)
@@ -247,7 +252,7 @@ def fetch_q1_for_answer(request):
     q_g_list =[]
     done = json.loads(request.GET.get("done"))
     print(done)
-    hvq = Question1_group.objects.annotate(ans_num = Count('answer1')).filter(ans_num__lt=5)
+    hvq = Question1_group.objects.annotate(ans_num = Count('answer1')).filter(ans_num__lt=3)
     for d in done:
         print("excluding...")
         hvq=hvq.exclude(Q1G_id=d)
@@ -359,6 +364,7 @@ def collect_reaction(request):
     return JsonResponse(data)
 
 def step1_return(request):
+    survey_code = request.GET.get("survey_code")
     d = json.loads(request.GET.get("data"))
     print(d)
     for change in d:
@@ -371,12 +377,12 @@ def step1_return(request):
             for ent in ents:
                 qg.entity.add(ent)
             qg.save()
-            q1 = Question1(Q1_id=Question1.objects.count(), question=change['question'], num_vote=change['num_vote'], question_group=qg)
+            q1 = Question1(Q1_id=Question1.objects.count(), question=change['question'], num_vote=change['num_vote'], question_group=qg, worker_code = survey_code)
             q1.save()
         else:
             qg=Question1_group.objects.get(Q1G_id = change['group_id'])
             if change['id']<0:
-                q1 = Question1(Q1_id=Question1.objects.count(), question=change['question'], num_vote=change['num_vote'], question_group=qg)
+                q1 = Question1(Q1_id=Question1.objects.count(), question=change['question'], num_vote=change['num_vote'], question_group=qg, worker_code = survey_code)
             else:
                 q1 = Question1.objects.get(Q1_id = change['id'])
                 q1.num_vote = change['num_vote']
@@ -401,9 +407,20 @@ def step1_return(request):
     return JsonResponse(data)
 
 def step2_return(request):
+    survey_code = request.GET.get("survey_code")
     d= json.loads(request.GET.get("data"))
     q_g = Question1_group.objects.get(Q1G_id = d['group_id'])
-    a = Answer1(A1_id=Answer1.objects.count(), answer=d['answer'], num_vote_A=1, question_group = q_g)
+    a = Answer1(A1_id=Answer1.objects.count(), answer=d['answer'], num_vote_A=1, question_group = q_g,  worker_code = survey_code)
+    a.save()
+    data={
+
+    }
+    return JsonResponse(data)
+def step2_mid_return(request):
+    survey_code = request.GET.get("survey_code")
+    d= json.loads(request.GET.get("data"))
+    q_g = Question1_group.objects.get(Q1G_id = d['group_id'])
+    a = Answer1_mid(mid_answer=d['answer'],  question_group = q_g,  worker_code = survey_code)
     a.save()
     data={
 
@@ -411,12 +428,13 @@ def step2_return(request):
     return JsonResponse(data)
 
 def step3_return(request):
+    survey_code = request.GET.get("survey_code")
     d = json.loads(request.GET.get('data'))
     for q in d:
         if q['group_id']<0:
             qg = Question2_group(Q2G_id=Question2_group.objects.count())
             qg.save()
-            q_save = Question2(Q2_id = Question2.objects.count(), question = q['question'], num_vote = 1, question_group = qg)
+            q_save = Question2(Q2_id = Question2.objects.count(), question = q['question'], num_vote = 1, question_group = qg,  worker_code = survey_code)
             q_save.save()
         else:
             qg = Question2_group.objects.get(Q2G_id = q['group_id'])
@@ -424,7 +442,7 @@ def step3_return(request):
                 q_save=Question2.objects.get(Q2_id=q['id'])
                 q_save.num_vote = q['num_vote']
             else:
-                q_save = Question2(Q2_id=Question2.objects.count(), question=q['question'], num_vote = q['num_vote'], question_group=qg)
+                q_save = Question2(Q2_id=Question2.objects.count(), question=q['question'], num_vote = q['num_vote'], question_group=qg, worker_code = survey_code)
             q_save.save()
     data={
 
@@ -449,9 +467,10 @@ def step4_return(request):
     return JsonResponse(data)
 
 def step5_return(request):
+    survey_code = request.GET.get("survey_code")
     d = json.loads(request.GET.get("data"))
     q2g= Question2_group.objects.get(Q2G_id=d['q2g_id'])
-    i = Interpretation(question2_g = q2g, made_by_expert = d['is_expert'], interpretation = d['interpretation'], int_id = Interpretation.objects.count())
+    i = Interpretation(question2_g = q2g, made_by_expert = d['is_expert'], interpretation = d['interpretation'], int_id = Interpretation.objects.count(),  worker_code = survey_code)
     i.save()
     print(d)
     data={}
@@ -461,7 +480,10 @@ def gen_entities(request):
     Entity.objects.all().delete()
     n = json.loads(request.GET.get("name"))
     i = json.loads(request.GET.get("ids"))
+    print(n)
+    print(i)
     for j in range(0, len(n)):
+        print("entitymaking...")
         e = Entity(name = n[j], entity_id = i[j])
         e.save()
     data={}
@@ -482,26 +504,65 @@ def gen_test_test():
 def gen_target_art():
     Interpretation.objects.all().delete()
     Question2.objects.all().delete()
-    Question2_group.objects.all().delete()
+
     Q2_Art_Link.objects.all().delete()
+    Question2_group.objects.all().delete()
     Answer1.objects.all().delete()
     Question1.objects.all().delete()
     Question1_group.objects.all().delete()
 
-    #Target_Article.objects.all().delete()
-    #t = Target_Article(title="Manbij", summary="")
-    #f = open(os.path.join(os.path.dirname(__file__), "t.txt"), 'r')
-    #tt = f.read()
-    #print(tt)
-    #t.summary = tt
-    #f.close()
-    #t.save()
+    Target_Article.objects.all().delete()
+    t = Target_Article(title="Korean-War", summary="")
+    f = open(os.path.join(os.path.dirname(__file__), "Korean-War/Korean-War"), 'r')
+    tt = f.read()
+    print(tt)
+    t.summary = tt
+    f.close()
+    t.save()
 
 def gen_sub_art():
+    choice.objects.all().delete()
+    Pre_step_Q.objects.all().delete()
+    #Interpretation.objects.all().delete()
+    #Question2.objects.all().delete()
+    #Q2_Art_Link.objects.all().delete()
+    #Question2_group.objects.all().delete()
+
+    #Answer1.objects.all().delete()
+    #Question1.objects.all().delete()
+    #Question1_group.objects.all().delete()
     Article.objects.all().delete()
-    for i in range(1,4):
-        f = open(os.path.join(os.path.dirname(__file__), "texts/"+str(i)+".txt"), "r")
+    questions = []
+    onlyfiles = []
+    for f in listdir(join(os.path.dirname(__file__), "Korean-War/questions")):
+        questions.append(f)
+    print(questions)
+    for i in questions:
+        f= open(os.path.join(os.path.dirname(__file__), "Korean-War/questions/"+i), "r")
+        q = Pre_step_Q(pre_step_q_id=Pre_step_Q.objects.count(), question=i)
+        q.save()
+        for j in range(0, 5):
+            tt = f.readline()
+            if j!=4:
+                c=choice(choice_id = j, choice = tt[1:len(tt)-1], question = q)
+                print(tt[1:len(tt)-1])
+
+            else:
+                c=choice(choice_id = j, choice = tt[1:len(tt)], question = q)
+                print(tt[1:len(tt)])
+            if tt[0]=="T":
+                c.is_right=True
+            elif tt[0]=="F":
+                c.is_right=False
+            c.save()
+
+    for f in listdir(join(os.path.dirname(__file__), "Korean-War/Sub")):
+        onlyfiles.append(f)
+    print(onlyfiles)
+    print("subart")
+    for i in onlyfiles:
+        f = open(os.path.join(os.path.dirname(__file__), "Korean-War/Sub/"+i), "r")
         tt = f.read()
-        t=Article(title=str(i), summary=tt)
+        t=Article(title=i[11:], summary=tt)
         t.save()
         f.close()

@@ -1,8 +1,8 @@
 var title, summary;
-
+var survey_code;
 var gen_q_num=0;
 var ex_num=0;
-
+var job_done_num = 0;
 var names = []
 var ids = []
 
@@ -67,13 +67,13 @@ target_text_ready = function(){
     },
     dataType: 'json',
     success: function(data){
-
+      survey_code= data.worker_id;
       title = data.title;
       $("#target_title").text("Target article : "+title)
       summary = data.summary;
       $("#target_summary").append(summary)
       $("sup").remove();
-      $("a").css("background-color", "#e5e5e5")
+      $("a")//.css("background-color", "#e5e5e5")
       .css("border", "solid 1px transparent").attr("id", function(){
         names.push($(this).attr("title"))
         ids.push($(this).attr("title").replace(/ /gi, "_").split("(")[0])
@@ -112,13 +112,15 @@ fetch_causal_question = function(){
       var linked_article_list = causal_question_data['linked_article_list']
       for(var i=0; i<linked_article_list.length; i++){
         var sum_text;
+        var k;
         for(var j=0; j<sub_art.length; j++){
           if(linked_article_list[i]==sub_art[j]['title']){
+            k=j;
             sum_text=sub_art[j]['summary']
             break;
           }
         }
-        $("#related_result").append("<div id='preview_"+i.toString()+"' class='rel_art_prev'>"+sub_art[i]['title']+"</div>").find("sup").remove()
+        $("#related_result").append("<div id='preview_"+i.toString()+"' class='rel_art_prev'>"+sub_art[k]['title']+"</div>").find("sup").remove()
       //  $("#preview_"+i.toString()).text($("#preview_"+i.toString()).text().substr(0, 50)+"...")
       //  console.log("this is sumtext", sum_text)
       }
@@ -128,10 +130,10 @@ fetch_causal_question = function(){
       console.log(sp_href)
       var mark = sp_href[sp_href.length-1]
       if(mark.includes("n")){
-        window.location.href = "/crowdsourcer/end_n5"
+        window.location.href = "/crowdsourcer/end_n5/"+survey_code
 
       }else if(mark.includes("e")){
-        window.location.href = "/crowdsourcer/end_e5"  
+        window.location.href = "/crowdsourcer/end_e5/"+survey_code
       }
     }
   },
@@ -414,6 +416,7 @@ fetch_questions=function(){
 
           $("#qna_content").append("<div class='entity_q_set' id='set_"+id+"'><div class='entity_q_title' id='title_"+id+"'>"+$("#"+id).attr("title")+"</div>");
           for(var j=0; j<sub_enti['question_group'].length; j++){
+            $("#"+id).css("background-color", "#e5e5e5")
             var q = sub_enti['question_group'][j]
             $("#set_"+id).append("<div class='q_a_set' id='"+id+"_"+j.toString()+"' name='"+i.toString()+"'></div>")
             $("#"+id+"_"+j.toString()).append("<div class='q'>Q : "+q['question']+"</div><div class='a'>A : "+q['answer']+"</div>")
@@ -558,10 +561,20 @@ Return_data= function(){
   $.ajax({
     url: '/crowdsourcer/step5_return',
     data: {
+      'survey_code' : survey_code,
       'data' : JSON.stringify(sending),
     },
     dataType: 'json',
     success: function(data){
+      job_done_num++;
+      if(job_done_num ==3){
+        if(mark.includes("n")){
+          window.location.href = "/crowdsourcer/end_n5/"+survey_code
+
+        }else if(mark.includes("e")){
+          window.location.href = "/crowdsourcer/end_e5/"+survey_code
+        }
+      }
       alert("Your interpretation is returned!")
       console.log("data saved");
       $("#interpret_input").val("")
