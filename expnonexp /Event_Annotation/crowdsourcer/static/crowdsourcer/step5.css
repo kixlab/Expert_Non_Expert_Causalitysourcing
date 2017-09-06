@@ -14,7 +14,7 @@ html{
   margin-right: 4%;
   margin-left: 4%;
   padding-top: 4%;
-  font-size: 30pt;
+  font-size: 20pt;
   font-family: 'PT Sans', sans-serif;
   margin-bottom: 1%;
   padding: 0;
@@ -218,7 +218,7 @@ a{
   font-size: 12pt;
 }
 #overlay{
-  visibility: hidden;
+  visibility: visible;
   position: fixed;
   top: 0;
   right: 0;
@@ -388,6 +388,28 @@ a{
   margin-left:4%;
 
   float: left;
+}
+#pre_tutorial{
+  bottom: 8%
+  padding: 20px;
+  top:8%;
+  left:4%;
+  right:4%;
+  border-top: solid 1.5px black;
+  border-bottom: solid 1.5px black;
+  position : fixed;
+  background-color: white;
+  z-index: 9999999;
+  overflow: scroll;
+}
+p{
+  font-family: "PT Sans", sans-serif;
+}
+#proceed{
+  font-weight: bold;
+  text-align: center;
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
 }
 #pre_tutorial{
   bottom: 8%

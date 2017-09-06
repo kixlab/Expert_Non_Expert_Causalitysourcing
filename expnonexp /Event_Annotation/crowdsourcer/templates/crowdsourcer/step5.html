@@ -19,13 +19,21 @@
 </head>
 <body id="main">
   <div id="empty"></div>
+  <div id="overlay"></div>
+  <div id="pre_tutorial">
+    <p>Now you are going to read a text and make interpretation on causality of the text and answer the question given by other people. The text might be dealing with unfamiliar topic, but you can get help from some materials.</p>
+    <p>In the upper part of left pane, you will see the question that you need to answer, and in the middle of left pane, there is a text from which the question is generated. If you click any shaded entity in the text, then you will be shown question and answer sets that are related to the selected entity. Question and answer sets are about relations between entities. If you put your mouse on them, involved entities will be highlighted.</p>
+    <p>In the right part of the interface, you will see related article list, which can give you more information when answering the causal question. If you click title of the article, the content will be shown in the below.</p>
+    <p>If you read materials, and think you are capable of making answer, then you can write it in the textarea in the right below. If you are done with writing, then you can submit it with Next button to proceed to more questions.</p>
+    <p id="proceed">Click to proceed</p>
+  </div>
   <div id="vote_prompt">
     <p id="v_prompt_head">Among these, which one do you think best represents your idea on the question?</p>
     <div id="v_prompt_box"></div>
     <input type=button id="v_prompt_cancel" class="but" value="Cancel">
 
   </div>
-  <div id="title">Interpret causal explanation why events in the target text happen.</div>
+  <div id="title">Interpret causality, why events in the target text happen.</div>
   <div id="explanation">You will be given questions about causality in the target text.</div>
   <div id="explanation">With given Q&A sets about contents and related articles, and by answering the causal question, interpret causality.</div>
 

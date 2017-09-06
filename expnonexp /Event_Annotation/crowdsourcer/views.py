@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.db.models import Max, Min, Count, F,Q, Sum
-from .models import Pre_step_Q, choice, Target_Article, Article, Entity, Question1_group, Question1, Answer1_group, Answer1, Question2_group, Question2, Interpretation, Q2_Art_Link
+from .models import Pre_step_Q, choice, Target_Article, Article, Entity, Question1_group, Question1, Answer1_group, Answer1, Question2_group, Question2, Interpretation, Q2_Art_Link, After_task_QA
 import datetime
 from django.core.urlresolvers import reverse
 #from django.urls import reverse
@@ -332,6 +332,15 @@ def fetch_prev_why_q_step3(request):
         q2g_list.append(dic)
     data={
         'prev_q' : json.dumps(q2g_list)
+    }
+    return JsonResponse(data)
+
+def collect_reaction(request):
+    dic = json.loads(request.GET.get("reaction"))
+    qa_result = After_task_QA(int_id = After_task_QA.objects.count(), answer = dic['answer'], step=dic['step'], expert=dic['is_expert'])
+    qa_result.save()
+    data={
+
     }
     return JsonResponse(data)
 

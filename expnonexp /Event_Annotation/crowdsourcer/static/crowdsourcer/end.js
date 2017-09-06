@@ -46,7 +46,29 @@ Return_q = function(step, expert){
 }
 
 Return_question = function(step, expert){
-
+  var text = $("#answer").val()
+  var dic = {}
+  dic['answer'] = text
+  dic['step'] = step
+  dic['is_expert'] = expert
+  $.ajax({
+    url: '/crowdsourcer/collect_reaction',
+    data: {
+      'reaction' : JSON.stringify(dic)
+    },
+    dataType: 'json',
+    success: function(data){
+      Show_end()
+      /**$("#answer").css("visibility", "hidden")
+      $("#return").css("visibility", "hidden")
+      $("#question").css("visibility", "hidden")
+      $("#prompt1").text("Your answer is well submitted.")
+      $("#prompt2").text("Again thank you for participation!")**/
+  },
+    error: function(data){
+      alert("Error")
+    }
+  })
 }
 
 Show_end= function(){

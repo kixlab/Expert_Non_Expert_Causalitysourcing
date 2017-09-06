@@ -14,7 +14,7 @@ html{
   margin-right: 4%;
   margin-left: 4%;
   padding-top: 4%;
-  font-size: 30pt;
+  font-size: 20pt;
   font-family: 'PT Sans', sans-serif;
   margin-bottom: 1%;
   padding: 0;
@@ -218,7 +218,7 @@ a{
   font-size: 12pt;
 }
 #overlay{
-  visibility: hidden;
+  visibility: visible;
   position: fixed;
   top: 0;
   right: 0;

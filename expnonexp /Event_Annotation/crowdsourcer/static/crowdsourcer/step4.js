@@ -28,7 +28,10 @@ var linked=[];
 
 var causal_question_data;
 $(document).ready(function(e){
-
+  $("#proceed").on("click", function(){
+    $("#pre_tutorial").css("visibility", "hidden")
+    $("#overlay").css("visibility", "hidden")
+  })
 $("#v_prompt_cancel").on("click", function(){
   $("#vote_prompt").css("visibility","hidden").css("position", "absolute")
   $("#v_prompt_box").text("")

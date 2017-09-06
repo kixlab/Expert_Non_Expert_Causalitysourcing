@@ -41,4 +41,5 @@ urlpatterns = [
     url(r'^fetch_sub_text/$', views.fetch_sub_text, name='fetch_sub_text'),
     url(r'^fetch_causal_question/$', views.fetch_causal_question, name='fetch_causal_question'),
     url(r'^fetch_causal_question_step5/$', views.fetch_causal_question_step5, name='fetch_causal_question_step5'),
+    url(r'^collect_reaction/', views.collect_reaction, name='collect_reaction'),
 ]
