@@ -127,3 +127,9 @@ class After_task_QA(models.Model):
         else :
             exp = "novice"
         return str(self.step)+"_"+exp+"_"+self.answer
+
+class Pass_Fail(models.Model):
+    step = models.IntegerField(default=0)
+    _pass = models.IntegerField(default = 0)
+    _fail = models.IntegerField(default = 0)
+    _tot = models.IntegerField(default = 0)

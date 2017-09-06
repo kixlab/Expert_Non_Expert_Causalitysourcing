@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.template import loader
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.db.models import Max, Min, Count, F,Q, Sum
-from .models import Pre_step_Q, choice, Target_Article, Article, Entity, Question1_group, Question1, Answer1_group, Answer1, Question2_group, Question2, Interpretation, Q2_Art_Link, After_task_QA, Answer1_mid
+from .models import Pre_step_Q, choice, Target_Article, Article, Entity, Question1_group, Question1, Answer1_group, Answer1, Question2_group, Question2, Interpretation, Q2_Art_Link, After_task_QA, Answer1_mid, Pass_Fail
 import datetime
 from django.core.urlresolvers import reverse
 #from django.urls import reverse
@@ -27,18 +27,48 @@ def admin_page(request):
     return render(request, 'crowdsourcer/admin.html', {})
 
 def quiz_1(request):
+    if Pass_Fail.objects.filter(step=1).count()==0:
+        a= Pass_Fail(_pass=0, _fail=0, _tot=0, step=1)
+        a.save()
+    a = Pass_Fail.objects.get(step=1)
+    a._tot = a._tot +1
+    a.save()
     #gen_test_test()
     return render(request, 'crowdsourcer/quiz.html',{})
 def quiz_2(request):
+    if Pass_Fail.objects.filter(step=2).count()==0:
+        a= Pass_Fail(_pass=0, _fail=0, _tot=0, step=2)
+        a.save()
+    a = Pass_Fail.objects.get(step=2)
+    a._tot = a._tot +1
+    a.save()
     #gen_test_test()
     return render(request, 'crowdsourcer/quiz.html',{})
 def quiz_3(request):
+    if Pass_Fail.objects.filter(step=3).count()==0:
+        a= Pass_Fail(_pass=0, _fail=0, _tot=0, step=3)
+        a.save()
+    a = Pass_Fail.objects.get(step=3)
+    a._tot = a._tot +1
+    a.save()
     #gen_test_test()
     return render(request, 'crowdsourcer/quiz.html',{})
 def quiz_4(request):
+    if Pass_Fail.objects.filter(step=4).count()==0 :
+        a= Pass_Fail(_pass=0, _fail=0, _tot=0, step=4)
+        a.save()
+    a = Pass_Fail.objects.get(step=4)
+    a._tot = a._tot +1
+    a.save()
     #gen_test_test()
     return render(request, 'crowdsourcer/quiz.html',{})
 def quiz_5(request):
+    if Pass_Fail.objects.filter(step=5).count()==0 :
+        a= Pass_Fail(_pass=0, _fail=0, _tot=0, step=5)
+        a.save()
+    a = Pass_Fail.objects.get(step=5)
+    a._tot = a._tot +1
+    a.save()
     #gen_test_test()
     return render(request, 'crowdsourcer/quiz.html',{})
 
@@ -75,18 +105,29 @@ def fetch_quiz(request):
     return JsonResponse(data)
 
 def step1_info_Q_gen(request):
+    p = Pass_Fail.objects.get(step=1)
+    p._fail =p._fail+1
+    p.save()
    # gen_target_art()
     #gen_sub_art()
     return render(request, 'crowdsourcer/step1.html',{})
 
 def step2_info_Q_ans(request):
-
+    p = _passFail.objects.get(step=1)
+    p._pass =p._pass+1
+    p.save()
     return render(request, 'crowdsourcer/step2.html',{})
 
 def step3_causal_Q_gen(request):
+    p = _passFail.objects.get(step=1)
+    p._fail =p._fail+1
+    p.save()
     #gen_target_art()
     return render(request, 'crowdsourcer/step3.html',{})
 def step4_causal_link(request):
+    p = _passFail.objects.get(step=1)
+    p._pass =p._pass+1
+    p.save()
     #gen_sub_art()
     return render(request, 'crowdsourcer/step4.html',{})
 def step5_causality_interpret_e(request):
