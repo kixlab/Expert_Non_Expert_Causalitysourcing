@@ -1,0 +1,1 @@
+web: gunicorn Event_Annotation.wsgi --log-file -
